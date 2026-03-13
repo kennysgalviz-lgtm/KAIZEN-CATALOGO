@@ -75,7 +75,7 @@ body{font-family:"Jost",sans-serif;background:var(--cream);color:var(--text);min
 .variant-stock.low{color:#C0392B;}
 .variant-qty{display:flex;align-items:center;gap:4px;margin-top:0.4rem;}
 .qty-btn{background:var(--vinho);color:white;border:none;width:20px;height:20px;border-radius:3px;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;}
-.qty-input{width:32px;text-align:center;border:1px solid rgba(201,168,76,0.3);border-radius:3px;font-size:0.75rem;padding:2px;font-family:"Jost",sans-serif;}
+.qty-input{width:32px;text-align:center;border:1px solid rgba(201,168,76,0.3);border-radius:3px;font-size:0.75rem;padding:2px;}
 .modal-footer{padding:1rem 1.5rem;border-top:1px solid rgba(201,168,76,0.2);display:flex;justify-content:flex-end;background:#fdf9f2;}
 .btn-add-cart{background:var(--vinho);color:var(--gold-pale);border:none;padding:0.7rem 1.5rem;border-radius:6px;font-family:"Jost",sans-serif;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all 0.2s;}
 .btn-add-cart:hover{background:var(--vinho-light);transform:translateY(-1px);}
@@ -105,90 +105,26 @@ body{font-family:"Jost",sans-serif;background:var(--cream);color:var(--text);min
 </style>
 </head>
 <body>
-<div class="cover" id="cover">
-  <img src="https://i.imgur.com/pJp0RRF.jpeg" alt="KAIZEN" class="cover-logo" onerror="this.style.display='none'">
-  <div class="cover-divider"></div>
-  <div class="cover-title">KAIZEN</div>
-  <div class="cover-subtitle">Catálogo</div>
-  <div class="cover-date">13 de marzo de 2026</div>
-  <div class="cover-scroll" onclick="showCatalog()">&#9660; Ver Catálogo</div>
-</div>
-<div class="catalog" id="catalog">
-  <div class="catalog-header"><div class="catalog-header-inner">
-    <div class="header-logo"><img src="https://i.imgur.com/Ult42iF.jpeg" alt="KAIZEN" onerror="this.style.display='none'"><span class="header-brand">KAIZEN</span></div>
-    <div class="header-title">Catálogo</div>
-    <button class="cart-btn" onclick="toggleCart()">&#128722; Carrito <span class="cart-count" id="cartCount">0</span></button>
-  </div></div>
-  <div class="catalog-body"><h2 class="section-title">CATÁLOGO</h2><div class="section-divider"></div><div class="products-grid" id="productsGrid"></div></div>
-</div>
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal"><div class="modal-header"><div class="modal-title" id="modalTitle"></div><button class="modal-close" onclick="closeModalDirect()">&#x2715;</button></div>
-  <div class="modal-body"><div class="modal-product-info"><img class="modal-main-img" id="modalImg" src="" alt=""><div class="modal-product-details"><h3 id="modalDesc"></h3><div class="modal-price-range" id="modalPrice"></div><div class="modal-moq" id="modalMoq"></div></div></div>
-  <div class="modal-variants-title">VARIANTES DISPONIBLES</div><div class="variants-grid" id="variantsGrid"></div></div>
-  <div class="modal-footer"><button class="btn-add-cart" onclick="addSelectedToCart()">+ Agregar al carrito</button></div></div>
-</div>
-<div class="cart-panel" id="cartPanel">
-  <div class="cart-header"><h3>MI PEDIDO</h3><button class="cart-close" onclick="toggleCart()">&#x2715;</button></div>
-  <div class="cart-items" id="cartItems"><div class="cart-empty">Tu carrito está vacío</div></div>
-  <div class="cart-footer"><div class="cart-total"><span class="cart-total-label">TOTAL ESTIMADO</span><span class="cart-total-value" id="cartTotal">&#165;0.00</span></div>
-  <button class="whatsapp-btn" onclick="sendWhatsApp()"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Enviar Pedido por WhatsApp</button></div>
-</div>
+<div class="cover" id="cover"><img src="https://i.imgur.com/pJp0RRF.jpeg" alt="KAIZEN" class="cover-logo" onerror="this.style.display='none'"><div class="cover-divider"></div><div class="cover-title">KAIZEN</div><div class="cover-subtitle">Catálogo</div><div class="cover-date">13 de marzo de 2026</div><div class="cover-scroll" onclick="showCatalog()">&#9660; Ver Catálogo</div></div>
+<div class="catalog" id="catalog"><div class="catalog-header"><div class="catalog-header-inner"><div class="header-logo"><img src="https://i.imgur.com/Ult42iF.jpeg" alt="KAIZEN" onerror="this.style.display='none'"><span class="header-brand">KAIZEN</span></div><div class="header-title">Catálogo</div><button class="cart-btn" onclick="toggleCart()">&#128722; Carrito <span class="cart-count" id="cartCount">0</span></button></div></div><div class="catalog-body"><h2 class="section-title">CATÁLOGO</h2><div class="section-divider"></div><div class="products-grid" id="productsGrid"></div></div></div>
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)"><div class="modal"><div class="modal-header"><div class="modal-title" id="modalTitle"></div><button class="modal-close" onclick="closeModalDirect()">&#x2715;</button></div><div class="modal-body"><div class="modal-product-info"><img class="modal-main-img" id="modalImg" src="" alt=""><div class="modal-product-details"><h3 id="modalDesc"></h3><div class="modal-price-range" id="modalPrice"></div><div class="modal-moq" id="modalMoq"></div></div></div><div class="modal-variants-title">VARIANTES DISPONIBLES</div><div class="variants-grid" id="variantsGrid"></div></div><div class="modal-footer"><button class="btn-add-cart" onclick="addSelectedToCart()">+ Agregar al carrito</button></div></div></div>
+<div class="cart-panel" id="cartPanel"><div class="cart-header"><h3>MI PEDIDO</h3><button class="cart-close" onclick="toggleCart()">&#x2715;</button></div><div class="cart-items" id="cartItems"><div class="cart-empty">Tu carrito está vacío</div></div><div class="cart-footer"><div class="cart-total"><span class="cart-total-label">TOTAL ESTIMADO</span><span class="cart-total-value" id="cartTotal">&#165;0.00</span></div><button class="whatsapp-btn" onclick="sendWhatsApp()">&#128722; Enviar Pedido por WhatsApp</button></div></div>
 <script>
-var PRODUCTOS = JSON.parse("{\"productos\":[],\"usdRate\":0.145321}").productos;
-var USD_RATE = JSON.parse("{\"productos\":[],\"usdRate\":0.145321}").usdRate;
+var DATA = JSON.parse("{\"productos\":[],\"usdRate\":0.145321}");
+var PRODUCTOS = DATA.productos;
+var USD_RATE = DATA.usdRate;
 var cart = [];
 var currentProduct = null;
 function formatUSD(cny){return "$"+(cny*USD_RATE).toFixed(2);}
-function showCatalog(){
-  document.getElementById("cover").style.display="none";
-  document.getElementById("catalog").classList.add("active");
-  renderProducts();
-}
-function renderProducts(){
-  var grid=document.getElementById("productsGrid"),h="";
-  for(var i=0;i<PRODUCTOS.length;i++){
-    var p=PRODUCTOS[i];
-    h+='<div class="product-card" onclick="openModal('+i+')">'
-      +'<div class="product-img-wrap"><img class="product-img" src="'+p.imagen+'" alt="" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=\'">'
-      +(p.variants.length>0?'<div class="variants-badge">'+p.variants.length+' variantes</div>':"")+"</div>"
-      +'<div class="product-info"><div class="product-name">'+p.titulo+"</div>"
-      +'<div class="product-price">&#165;'+p.price_range+' <span>/ '+formatUSD(p.precio)+"</span></div>"
-      +(p.moq>0?'<div class="product-moq">MOQ: '+p.moq+" unidades</div>":"")
-      +"</div>"
-      +'<div class="product-footer"><span class="view-variants-btn">'+( p.variants.length>0?"Ver variantes &#8594;":"Ver detalle &#8594;")+'</span></div></div>';
-  }
-  grid.innerHTML=h;
-}
-function openModal(idx){
-  currentProduct=PRODUCTOS[idx];var p=currentProduct;
-  document.getElementById("modalTitle").textContent=p.titulo;
-  document.getElementById("modalImg").src=p.imagen;
-  document.getElementById("modalDesc").textContent=p.titulo;
-  document.getElementById("modalPrice").textContent="&#165;"+p.price_range+" / "+formatUSD(p.precio)+" USD";
-  document.getElementById("modalMoq").textContent=p.moq>0?"MOQ: "+p.moq+" unidades":"";
-  var grid=document.getElementById("variantsGrid"),vh="";
-  if(p.variants.length===0){grid.innerHTML='<div class="no-variants-msg">Este producto no tiene variantes disponibles.</div>';}
-  else{
-    for(var i=0;i<p.variants.length;i++){
-      var v=p.variants[i],sc=(v.stock<20&&v.stock>0)?"low":"",st=v.available?(v.stock<20?"&#9888; Stock: "+v.stock:"Stock: "+v.stock):"&#x2715; Sin stock";
-      vh+='<div class="variant-card '+(!v.available?"out-of-stock":"")+'" id="variant-'+i+'" onclick="selectVariant('+i+')">'
-        +'<img class="variant-img" src="'+( v.image||p.imagen)+'" alt="" loading="lazy">'
-        +'<div class="variant-info"><div class="variant-code">'+v.code+"</div>"
-        +'<div class="variant-price">&#165;'+v.price+" / "+formatUSD(v.price)+"</div>"
-        +'<div class="variant-stock '+sc+'">'+st+"</div>"
-        +(v.available?'<div class="variant-qty"><button class="qty-btn" onclick="changeQty(event,'+i+',-1)">&#8722;</button><input class="qty-input" type="number" id="qty-'+i+'" value="0" min="0" max="'+v.stock+'"><button class="qty-btn" onclick="changeQty(event,'+i+',1)">+</button></div>':"")
-        +"</div></div>";
-    }
-    grid.innerHTML=vh;
-  }
-  document.getElementById("modalOverlay").classList.add("active");
-}
+function showCatalog(){document.getElementById("cover").style.display="none";document.getElementById("catalog").classList.add("active");renderProducts();}
+function renderProducts(){var grid=document.getElementById("productsGrid"),h="";for(var i=0;i<PRODUCTOS.length;i++){var p=PRODUCTOS[i];h+='<div class="product-card" onclick="openModal('+i+')">'+'<div class="product-img-wrap"><img class="product-img" src="'+p.imagen+'" alt="" loading="lazy">'+(p.variants.length>0?'<div class="variants-badge">'+p.variants.length+' variantes</div>':"")+'</div>'+'<div class="product-info"><div class="product-name">'+p.titulo+'</div><div class="product-price">&#165;'+p.price_range+' <span>/ '+formatUSD(p.precio)+'</span></div>'+(p.moq>0?'<div class="product-moq">MOQ: '+p.moq+' unidades</div>':"")+"</div>"+'<div class="product-footer"><span class="view-variants-btn">'+(p.variants.length>0?"Ver variantes":"Ver detalle")+' &#8594;</span></div></div>';} grid.innerHTML=h;}
+function openModal(idx){currentProduct=PRODUCTOS[idx];var p=currentProduct;document.getElementById("modalTitle").textContent=p.titulo;document.getElementById("modalImg").src=p.imagen;document.getElementById("modalDesc").textContent=p.titulo;document.getElementById("modalPrice").textContent="&#165;"+p.price_range+" / "+formatUSD(p.precio)+" USD";document.getElementById("modalMoq").textContent=p.moq>0?"MOQ: "+p.moq+" unidades":"";var grid=document.getElementById("variantsGrid"),vh="";if(p.variants.length===0){grid.innerHTML='<div class="no-variants-msg">Sin variantes disponibles.</div>';}else{for(var i=0;i<p.variants.length;i++){var v=p.variants[i];vh+='<div class="variant-card '+(!v.available?"out-of-stock":"")+'" id="variant-'+i+'" onclick="selectVariant('+i+')">'+'<img class="variant-img" src="'+( v.image||p.imagen)+'" alt="" loading="lazy">'+'<div class="variant-info"><div class="variant-code">'+v.code+'</div><div class="variant-price">&#165;'+v.price+" / "+formatUSD(v.price)+'</div><div class="variant-stock">'+( v.available?"Stock: "+v.stock:"Sin stock")+'</div>'+(v.available?'<div class="variant-qty"><button class="qty-btn" onclick="changeQty(event,'+i+',-1)">&#8722;</button><input class="qty-input" type="number" id="qty-'+i+'" value="0" min="0" max="'+v.stock+'"><button class="qty-btn" onclick="changeQty(event,'+i+',1)">+</button></div>':"")+'</div></div>';}grid.innerHTML=vh;}document.getElementById("modalOverlay").classList.add("active");}
 function selectVariant(i){var c=document.getElementById("variant-"+i);if(c.classList.contains("out-of-stock"))return;c.classList.toggle("selected");var q=document.getElementById("qty-"+i);if(q&&parseInt(q.value)===0)q.value=1;}
 function changeQty(e,i,d){e.stopPropagation();var inp=document.getElementById("qty-"+i),nv=Math.max(0,parseInt(inp.value||0)+d);inp.value=nv;var c=document.getElementById("variant-"+i);if(nv>0)c.classList.add("selected");else c.classList.remove("selected");}
 function addSelectedToCart(){if(!currentProduct)return;var added=0;for(var i=0;i<currentProduct.variants.length;i++){var v=currentProduct.variants[i],inp=document.getElementById("qty-"+i);if(!inp)continue;var qty=parseInt(inp.value);if(qty>0&&v.available){var ex=null;for(var j=0;j<cart.length;j++){if(cart[j].code===v.code&&cart[j].productId===currentProduct.offerId){ex=cart[j];break;}}if(ex)ex.qty=qty;else cart.push({productId:currentProduct.offerId,productName:currentProduct.titulo,code:v.code,price:v.price,qty:qty,image:v.image||currentProduct.imagen});added++;}}if(added>0){closeModalDirect();renderCart();toggleCart();}}
-function renderCart(){var con=document.getElementById("cartItems"),total=0,count=0,h="";for(var i=0;i<cart.length;i++)count+=cart[i].qty;document.getElementById("cartCount").textContent=count;if(cart.length===0){con.innerHTML='<div class="cart-empty">Tu carrito está vacío</div>';document.getElementById("cartTotal").textContent="&#165;0.00";return;}for(var i=0;i<cart.length;i++){var item=cart[i];total+=item.price*item.qty;h+='<div class="cart-item"><img class="cart-item-img" src="'+item.image+'" alt="" onerror="this.style.display=\'none\'">'+'<div class="cart-item-info"><div class="cart-item-code">'+item.code+" &times; "+item.qty+"</div>"+'<div class="cart-item-product">'+item.productName+"</div>"+'<div class="cart-item-price">&#165;'+( item.price*item.qty).toFixed(2)+" / "+formatUSD(item.price*item.qty)+"</div></div>"+'<button class="cart-item-remove" onclick="removeFromCart('+i+')">&#x2715;</button></div>';}con.innerHTML=h;document.getElementById("cartTotal").textContent="&#165;"+total.toFixed(2)+" / "+formatUSD(total);}
+function renderCart(){var con=document.getElementById("cartItems"),total=0,count=0,h="";for(var i=0;i<cart.length;i++)count+=cart[i].qty;document.getElementById("cartCount").textContent=count;if(cart.length===0){con.innerHTML='<div class="cart-empty">Tu carrito está vacío</div>';document.getElementById("cartTotal").textContent="&#165;0.00";return;}for(var i=0;i<cart.length;i++){var item=cart[i];total+=item.price*item.qty;h+='<div class="cart-item"><img class="cart-item-img" src="'+item.image+'" alt="" onerror="this.style.display=\'none\'">'+'<div class="cart-item-info"><div class="cart-item-code">'+item.code+" &times; "+item.qty+'</div><div class="cart-item-product">'+item.productName+'</div><div class="cart-item-price">&#165;'+( item.price*item.qty).toFixed(2)+" / "+formatUSD(item.price*item.qty)+'</div></div><button class="cart-item-remove" onclick="removeFromCart('+i+')">&#x2715;</button></div>';}con.innerHTML=h;document.getElementById("cartTotal").textContent="&#165;"+total.toFixed(2)+" / "+formatUSD(total);}
 function removeFromCart(i){cart.splice(i,1);renderCart();}
-function sendWhatsApp(){if(cart.length===0)return;var msg="&#128722; *PEDIDO KAIZEN*\n\n",total=0;for(var i=0;i<cart.length;i++){var item=cart[i];msg+="* "+item.code+" x"+item.qty+" = &#165;"+(item.price*item.qty).toFixed(2)+"\n  "+item.productName.slice(0,40)+"\n\n";total+=item.price*item.qty;}msg+="\nTotal: &#165;"+total.toFixed(2)+" / "+formatUSD(total);window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");}
+function sendWhatsApp(){if(cart.length===0)return;var msg="*PEDIDO KAIZEN*\n\n",total=0;for(var i=0;i<cart.length;i++){var item=cart[i];msg+="* "+item.code+" x"+item.qty+" = &#165;"+(item.price*item.qty).toFixed(2)+"\n  "+item.productName.slice(0,40)+"\n\n";total+=item.price*item.qty;}msg+="\nTotal: &#165;"+total.toFixed(2)+" / "+formatUSD(total);window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");}
 function toggleCart(){document.getElementById("cartPanel").classList.toggle("active");}
 function closeModal(e){if(e.target===document.getElementById("modalOverlay"))closeModalDirect();}
 function closeModalDirect(){document.getElementById("modalOverlay").classList.remove("active");currentProduct=null;}
