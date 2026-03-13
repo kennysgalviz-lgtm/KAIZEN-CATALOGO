@@ -116,7 +116,7 @@
   <div class="cover-title">KAIZEN</div>
   <div class="cover-subtitle">Catálogo</div>
   <div class="cover-date">13 de marzo de 2026</div>
-  <div class="cover-scroll" onclick="showCatalog()">▼ Ver Catálogo</div>
+  <div class="cover-scroll" onclick="showCatalog()">&#9660; Ver Catálogo</div>
 </div>
 <div class="catalog" id="catalog">
   <div class="catalog-header">
@@ -127,7 +127,7 @@
       </div>
       <div class="header-title">Catálogo</div>
       <button class="cart-btn" onclick="toggleCart()">
-        🛒 Carrito <span class="cart-count" id="cartCount">0</span>
+        &#128722; Carrito <span class="cart-count" id="cartCount">0</span>
       </button>
     </div>
   </div>
@@ -141,7 +141,7 @@
   <div class="modal" id="modal">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle"></div>
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <button class="modal-close" onclick="closeModalDirect()">&#x2715;</button>
     </div>
     <div class="modal-body">
       <div class="modal-product-info">
@@ -163,7 +163,7 @@
 <div class="cart-panel" id="cartPanel">
   <div class="cart-header">
     <h3>MI PEDIDO</h3>
-    <button class="cart-close" onclick="toggleCart()">✕</button>
+    <button class="cart-close" onclick="toggleCart()">&#x2715;</button>
   </div>
   <div class="cart-items" id="cartItems">
     <div class="cart-empty">Tu carrito está vacío</div>
@@ -180,8 +180,9 @@
   </div>
 </div>
 <script>
-const PRODUCTOS = ${JSON.stringify(PRODUCTOS)};
-const USD_RATE = ${USD_RATE};
+// Datos inyectados de forma segura via doble JSON.stringify
+const PRODUCTOS = JSON.parse("[]");
+const USD_RATE = 0.145321;
 let cart = [];
 let currentProduct = null;
 function formatUSD(cny) { return '$' + (cny * USD_RATE).toFixed(2); }
@@ -192,22 +193,21 @@ function showCatalog() {
 }
 function renderProducts() {
   const grid = document.getElementById('productsGrid');
-  grid.innerHTML = PRODUCTOS.map((p, i) => `
-    <div class="product-card" onclick="openModal(${i})">
-      <div class="product-img-wrap">
-        <img class="product-img" src="${p.imagen}" alt="${p.titulo}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23f5f0ea%22 width=%22200%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23ccc%22 text-anchor=%22middle%22 dy=%22.3em%22>Sin imagen</text></svg>'">
-        ${p.variants.length > 0 ? `<div class="variants-badge">${p.variants.length} variantes</div>` : ''}
-      </div>
-      <div class="product-info">
-        <div class="product-name">${p.titulo}</div>
-        <div class="product-price">¥${p.price_range} <span>/ ${formatUSD(p.precio)}</span></div>
-        ${p.moq > 0 ? `<div class="product-moq">MOQ: ${p.moq} unidades</div>` : ''}
-      </div>
-      <div class="product-footer">
-        <span class="view-variants-btn">${p.variants.length > 0 ? 'Ver variantes' : 'Ver detalle'}</span>
-      </div>
-    </div>
-  `).join('');
+  grid.innerHTML = PRODUCTOS.map((p, i) => {
+    const noImg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f5f0ea" width="200" height="200"/><text x="50%" y="50%" fill="#ccc" text-anchor="middle" dy=".3em">Sin imagen</text></svg>');
+    return '<div class="product-card" onclick="openModal(' + i + ')">' +
+      '<div class="product-img-wrap">' +
+      '<img class="product-img" src="' + (p.imagen||'') + '" alt="" loading="lazy" onerror="this.src='' + noImg + ''">' +
+      (p.variants.length > 0 ? '<div class="variants-badge">' + p.variants.length + ' variantes</div>' : '') +
+      '</div>' +
+      '<div class="product-info">' +
+      '<div class="product-name">' + p.titulo + '</div>' +
+      '<div class="product-price">¥' + p.price_range + ' <span>/ ' + formatUSD(p.precio) + '</span></div>' +
+      (p.moq > 0 ? '<div class="product-moq">MOQ: ' + p.moq + ' unidades</div>' : '') +
+      '</div>' +
+      '<div class="product-footer"><span class="view-variants-btn">' + (p.variants.length > 0 ? 'Ver variantes' : 'Ver detalle') + '</span></div>' +
+      '</div>';
+  }).join('');
 }
 function openModal(idx) {
   currentProduct = PRODUCTOS[idx];
@@ -215,58 +215,52 @@ function openModal(idx) {
   document.getElementById('modalTitle').textContent = p.titulo;
   document.getElementById('modalImg').src = p.imagen;
   document.getElementById('modalDesc').textContent = p.titulo;
-  document.getElementById('modalPrice').textContent = `¥${p.price_range}  /  ${formatUSD(p.precio)} USD`;
-  document.getElementById('modalMoq').textContent = p.moq > 0 ? `MOQ: ${p.moq} unidades` : '';
+  document.getElementById('modalPrice').textContent = '¥' + p.price_range + '  /  ' + formatUSD(p.precio) + ' USD';
+  document.getElementById('modalMoq').textContent = p.moq > 0 ? 'MOQ: ' + p.moq + ' unidades' : '';
   const grid = document.getElementById('variantsGrid');
   if (p.variants.length === 0) {
     grid.innerHTML = '<div class="no-variants-msg">Este producto no tiene variantes disponibles.</div>';
   } else {
-    grid.innerHTML = p.variants.map((v, i) => `
-      <div class="variant-card ${!v.available ? 'out-of-stock' : ''}" id="variant-${i}" onclick="selectVariant(${i})">
-        <img class="variant-img" src="${v.image || p.imagen}" alt="${v.code}" loading="lazy" onerror="this.src='${p.imagen}'">
-        <div class="variant-info">
-          <div class="variant-code">${v.code}</div>
-          <div class="variant-price">¥${v.price} / ${formatUSD(v.price)}</div>
-          <div class="variant-stock ${v.stock < 20 && v.stock > 0 ? 'low' : ''}">${v.available ? (v.stock < 20 ? `⚠ Stock: ${v.stock}` : `Stock: ${v.stock}`) : '✕ Sin stock'}</div>
-          ${v.available ? `
-          <div class="variant-qty">
-            <button class="qty-btn" onclick="changeQty(event,${i},-1)">−</button>
-            <input class="qty-input" type="number" id="qty-${i}" value="0" min="0" max="${v.stock}">
-            <button class="qty-btn" onclick="changeQty(event,${i},1)">+</button>
-          </div>` : ''}
-        </div>
-      </div>
-    `).join('');
+    grid.innerHTML = p.variants.map((v, i) => {
+      return '<div class="variant-card ' + (!v.available ? 'out-of-stock' : '') + '" id="variant-' + i + '" onclick="selectVariant(' + i + ')">' +
+        '<img class="variant-img" src="' + (v.image || p.imagen) + '" alt="" loading="lazy" onerror="this.src='' + (p.imagen||'') + ''">' +
+        '<div class="variant-info">' +
+        '<div class="variant-code">' + v.code + '</div>' +
+        '<div class="variant-price">¥' + v.price + ' / ' + formatUSD(v.price) + '</div>' +
+        '<div class="variant-stock ' + (v.stock < 20 && v.stock > 0 ? 'low' : '') + '">' + (v.available ? (v.stock < 20 ? '⚠ Stock: ' + v.stock : 'Stock: ' + v.stock) : '✕ Sin stock') + '</div>' +
+        (v.available ? '<div class="variant-qty"><button class="qty-btn" onclick="changeQty(event,' + i + ',-1)">−</button><input class="qty-input" type="number" id="qty-' + i + '" value="0" min="0" max="' + v.stock + '"><button class="qty-btn" onclick="changeQty(event,' + i + ',1)">+</button></div>' : '') +
+        '</div></div>';
+    }).join('');
   }
   document.getElementById('modalOverlay').classList.add('active');
 }
 function selectVariant(i) {
-  const card = document.getElementById(`variant-${i}`);
+  const card = document.getElementById('variant-' + i);
   if (card.classList.contains('out-of-stock')) return;
   card.classList.toggle('selected');
-  const qtyInput = document.getElementById(`qty-${i}`);
+  const qtyInput = document.getElementById('qty-' + i);
   if (qtyInput && parseInt(qtyInput.value) === 0) qtyInput.value = 1;
 }
 function changeQty(e, i, delta) {
   e.stopPropagation();
-  const input = document.getElementById(`qty-${i}`);
+  const input = document.getElementById('qty-' + i);
   const newVal = Math.max(0, parseInt(input.value || 0) + delta);
   input.value = newVal;
-  const card = document.getElementById(`variant-${i}`);
+  const card = document.getElementById('variant-' + i);
   if (newVal > 0) card.classList.add('selected');
   else card.classList.remove('selected');
 }
 function addSelectedToCart() {
   if (!currentProduct) return;
   let added = 0;
-  currentProduct.variants.forEach((v, i) => {
-    const input = document.getElementById(`qty-${i}`);
+  currentProduct.variants.forEach(function(v, i) {
+    const input = document.getElementById('qty-' + i);
     if (!input) return;
     const qty = parseInt(input.value);
     if (qty > 0 && v.available) {
-      const existing = cart.find(c => c.code === v.code && c.productId === currentProduct.offerId);
+      const existing = cart.find(function(c) { return c.code === v.code && c.productId === currentProduct.offerId; });
       if (existing) existing.qty = qty;
-      else cart.push({ productId: currentProduct.offerId, productName: currentProduct.titulo, code: v.code, price: v.price, qty, image: v.image || currentProduct.imagen });
+      else cart.push({ productId: currentProduct.offerId, productName: currentProduct.titulo, code: v.code, price: v.price, qty: qty, image: v.image || currentProduct.imagen });
       added++;
     }
   });
@@ -274,39 +268,45 @@ function addSelectedToCart() {
 }
 function renderCart() {
   const container = document.getElementById('cartItems');
-  document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = cart.reduce(function(s, i) { return s + i.qty; }, 0);
   if (cart.length === 0) {
     container.innerHTML = '<div class="cart-empty">Tu carrito está vacío</div>';
     document.getElementById('cartTotal').textContent = '¥0.00';
     return;
   }
   let total = 0;
-  container.innerHTML = cart.map((item, i) => {
+  container.innerHTML = cart.map(function(item, i) {
     total += item.price * item.qty;
-    return `<div class="cart-item">
-      <img class="cart-item-img" src="${item.image}" alt="${item.code}" onerror="this.style.display='none'">
-      <div class="cart-item-info">
-        <div class="cart-item-code">${item.code} × ${item.qty}</div>
-        <div class="cart-item-product">${item.productName}</div>
-        <div class="cart-item-price">¥${(item.price * item.qty).toFixed(2)} / ${formatUSD(item.price * item.qty)}</div>
-      </div>
-      <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
-    </div>`;
+    return '<div class="cart-item">' +
+      '<img class="cart-item-img" src="' + item.image + '" alt="" onerror="this.style.display='none'">' +
+      '<div class="cart-item-info">' +
+      '<div class="cart-item-code">' + item.code + ' × ' + item.qty + '</div>' +
+      '<div class="cart-item-product">' + item.productName + '</div>' +
+      '<div class="cart-item-price">¥' + (item.price * item.qty).toFixed(2) + ' / ' + formatUSD(item.price * item.qty) + '</div>' +
+      '</div>' +
+      '<button class="cart-item-remove" onclick="removeFromCart(' + i + ')">✕</button>' +
+      '</div>';
   }).join('');
-  document.getElementById('cartTotal').textContent = `¥${total.toFixed(2)} / ${formatUSD(total)}`;
+  document.getElementById('cartTotal').textContent = '¥' + total.toFixed(2) + ' / ' + formatUSD(total);
 }
 function removeFromCart(i) { cart.splice(i, 1); renderCart(); }
 function sendWhatsApp() {
   if (cart.length === 0) return;
-  let msg = '🛒 *PEDIDO KAIZEN*\n\n';
+  let msg = '🛒 *PEDIDO KAIZEN*
+
+';
   let total = 0;
-  cart.forEach(item => {
-    msg += `• *${item.code}* × ${item.qty} = ¥${(item.price * item.qty).toFixed(2)}\n`;
-    msg += `  _${item.productName.slice(0, 40)}_\n\n`;
+  cart.forEach(function(item) {
+    msg += '• *' + item.code + '* × ' + item.qty + ' = ¥' + (item.price * item.qty).toFixed(2) + '
+';
+    msg += '  _' + item.productName.slice(0, 40) + '_
+
+';
     total += item.price * item.qty;
   });
-  msg += `\n💰 *Total: ¥${total.toFixed(2)} / ${formatUSD(total)}*`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  msg += '
+💰 *Total: ¥' + total.toFixed(2) + ' / ' + formatUSD(total) + '*';
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 function toggleCart() { document.getElementById('cartPanel').classList.toggle('active'); }
 function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
