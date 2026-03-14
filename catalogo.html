@@ -185,7 +185,6 @@ function renderProducts(){
   var h = '';
    for(var i = 0; i < p.variants.length; i++){
   var v = p.variants[i];
-  if(!v.available) continue;
     h += '<div class="product-card" onclick="openModal(' + i + ')">';
     h += '<div class="product-img-wrap">';
     h += '<img class="product-img" src="' + p.imagen + '" alt="" loading="lazy" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23f5f0ea%22 width=%22200%22 height=%22200%22/></svg>\'">';
