@@ -205,7 +205,7 @@ function openModal(idx){
   currentProduct = PRODUCTOS[idx];
   var p = currentProduct;
   document.getElementById('modalTitle').textContent = p.titulo;
-  document.getElementById('modalImg').src = p.imagen;
+  document.getElementById('modalImg').src = p.imagen + '?t=' + Date.now();
   document.getElementById('modalDesc').textContent = p.titulo;
   document.getElementById('modalPrice').textContent = '¥' + p.price_range + ' / ' + formatUSD(p.precio) + ' USD';
   var grid = document.getElementById('variantsGrid');
