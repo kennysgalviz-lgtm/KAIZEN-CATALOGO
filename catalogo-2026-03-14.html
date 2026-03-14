@@ -276,12 +276,11 @@ function sendWhatsApp(){
     msg += "*" + item.code + "* x" + item.qty + "\n";
     msg += item.productName + "\n";
     msg += "\u00A5" + item.price + " x " + item.qty + " = \u00A5" + (item.price * item.qty).toFixed(2) + " / " + formatUSD(item.price * item.qty) + "\n";
-    msg += item.productUrl + "\n\n";
+    msg += (item.productUrl || "") + "\n\n";
     total += item.price * item.qty;
   }
   msg += "*Total: \u00A5" + total.toFixed(2) + " / " + formatUSD(total) + "*";
   window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
-}
 }
 function toggleCart(){ document.getElementById("cartPanel").classList.toggle("active"); }
 function closeModal(e){ if(e.target === document.getElementById("modalOverlay")) closeModalDirect(); }
