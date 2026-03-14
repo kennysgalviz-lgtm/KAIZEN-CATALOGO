@@ -177,7 +177,7 @@ function renderProducts(){
   for(var i = 0; i < PRODUCTOS.length; i++){
     var p = PRODUCTOS[i];
     h += "<div class=\"product-card\" onclick=\"openModal(" + i + ")\">";
-    h += "<div class=\"product-img-wrap\"><img class=\"product-img\" src=\"" + p.imagen + "\" alt=\"\" loading=\"lazy\">";
+    h += "<div class=\"product-img-wrap\"><img class=\"product-img\" src=\"https://wsrv.nl/?url=" + encodeURIComponent(p.imagen) + "\" alt=\"\" loading=\"lazy\">";
     if(p.variants.length > 0) h += "<div class=\"variants-badge\">" + p.variants.length + " variantes</div>";
     h += "</div>";
     h += "<div class=\"product-info\"><div class=\"product-name\">" + p.titulo + "</div>";
@@ -190,7 +190,7 @@ function openModal(idx){
   currentProduct = PRODUCTOS[idx];
   var p = currentProduct;
   document.getElementById("modalTitle").textContent = p.titulo;
-  document.getElementById("modalImg").src = p.imagen;
+  document.getElementById("modalImg").src = "https://wsrv.nl/?url=" + encodeURIComponent(p.imagen);
   document.getElementById("modalDesc").textContent = p.titulo;
   document.getElementById("modalPrice").textContent = "\u00A5" + p.price_range + " / " + formatUSD(p.precio) + " USD";
   var grid = document.getElementById("variantsGrid");
@@ -201,7 +201,7 @@ function openModal(idx){
     for(var i = 0; i < p.variants.length; i++){
       var v = p.variants[i];
       vh += "<div class=\"variant-card\" id=\"variant-" + i + "\" onclick=\"selectVariant(" + i + ")\">";
-      vh += "<img class=\"variant-img\" src=\"" + (v.image || p.imagen) + "\" alt=\"\" loading=\"lazy\">";
+      vh += "<img class=\"variant-img\" src=\"https://wsrv.nl/?url=" + encodeURIComponent(v.image || p.imagen) + "\" alt=\"\" loading=\"lazy\">";
       vh += "<div class=\"variant-info\"><div class=\"variant-code\">" + v.code + "</div>";
       vh += "<div class=\"variant-price\">\u00A5" + v.price + " / " + formatUSD(v.price) + "</div>";
       vh += "<div class=\"variant-stock\">Stock: " + v.stock + "</div>";
