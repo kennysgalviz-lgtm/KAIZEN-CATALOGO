@@ -239,7 +239,7 @@ function addSelectedToCart(){
         if(cart[j].code === v.code && cart[j].productId === currentProduct.offerId){ ex = cart[j]; break; }
       }
       if(ex) ex.qty = qty;
-      else cart.push({productId: currentProduct.offerId, productName: currentProduct.titulo, code: v.code, price: v.price, qty: qty, image: v.image || currentProduct.imagen});
+      else cart.push({productId: currentProduct.offerId, productName: currentProduct.titulo, code: v.code, price: v.price, qty: qty, image: v.image || currentProduct.imagen, productUrl: currentProduct.url});
       added++;
     }
   }
@@ -273,11 +273,15 @@ function sendWhatsApp(){
   var msg = "*PEDIDO KAIZEN*\n\n", total = 0;
   for(var i = 0; i < cart.length; i++){
     var item = cart[i];
-    msg += "* " + item.code + " x" + item.qty + " = \u00A5" + (item.price * item.qty).toFixed(2) + "\n  " + item.productName.slice(0, 40) + "\n\n";
+    msg += "*" + item.code + "* x" + item.qty + "\n";
+    msg += item.productName + "\n";
+    msg += "\u00A5" + item.price + " x " + item.qty + " = \u00A5" + (item.price * item.qty).toFixed(2) + " / " + formatUSD(item.price * item.qty) + "\n";
+    msg += item.productUrl + "\n\n";
     total += item.price * item.qty;
   }
-  msg += "\nTotal: \u00A5" + total.toFixed(2) + " / " + formatUSD(total);
+  msg += "*Total: \u00A5" + total.toFixed(2) + " / " + formatUSD(total) + "*";
   window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
 }
 function toggleCart(){ document.getElementById("cartPanel").classList.toggle("active"); }
 function closeModal(e){ if(e.target === document.getElementById("modalOverlay")) closeModalDirect(); }
