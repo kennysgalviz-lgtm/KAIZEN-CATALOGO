@@ -176,7 +176,7 @@ var USD_RATE = 0.145;
 var cart = [];
 var currentProduct = null;
 
-fetch('data.json?t=' + Date.now())
+fetch('https://raw.githubusercontent.com/kennysgalviz-lgtm/KAIZEN-CATALOGO/main/data.json?t=' + Date.now())
   .then(function(r){ return r.json(); })
   .then(function(data){
     PRODUCTOS = data.productos;
