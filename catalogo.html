@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KAIZEN - Catálogo</title>
+<title>KAIZEN - Catalogo</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--vinho:#6B1A2A;--vinho-dark:#4A0F1C;--vinho-light:#8B2A3E;--gold:#C9A84C;--gold-light:#E8C96A;--gold-pale:#F5E6B8;--cream:#F8F3E8;--dark:#1A0A0F;--text:#2C1A20;--text-light:#6B4D55;}
@@ -19,9 +19,6 @@ body{font-family:"Jost",sans-serif;background:var(--cream);color:var(--text);min
 .cover-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:1.5rem auto;position:relative;z-index:1;}
 .cover-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--gold);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;z-index:1;animation:bounce 2s infinite;}
 @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
-.loading{display:none;position:fixed;inset:0;background:var(--dark);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
-.loading.active{display:flex;}
-.loading-text{color:var(--gold);font-family:"Cinzel",serif;font-size:1rem;letter-spacing:0.2em;}
 .catalog{display:none;background:var(--cream);}
 .catalog.active{display:block;}
 .catalog-header{background:linear-gradient(135deg,var(--vinho-dark),var(--vinho));padding:1rem 2rem;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(107,26,42,0.4);}
@@ -104,16 +101,13 @@ body{font-family:"Jost",sans-serif;background:var(--cream);color:var(--text);min
 </style>
 </head>
 <body>
-<div class="loading" id="loading">
-  <div class="loading-text">CARGANDO CATÁLOGO...</div>
-</div>
 <div class="cover" id="cover">
   <img src="https://i.imgur.com/pJp0RRF.jpeg" alt="KAIZEN" class="cover-logo" onerror="this.style.display='none'">
   <div class="cover-divider"></div>
   <div class="cover-title">KAIZEN</div>
-  <div class="cover-subtitle">Catálogo</div>
+  <div class="cover-subtitle">Cat&aacute;logo</div>
   <div class="cover-date">14 de marzo de 2026</div>
-  <div class="cover-scroll" onclick="showCatalog()">&#9660; Ver Catálogo</div>
+  <div class="cover-scroll" onclick="showCatalog()">&#9660; Ver Cat&aacute;logo</div>
 </div>
 <div class="catalog" id="catalog">
   <div class="catalog-header">
@@ -122,12 +116,12 @@ body{font-family:"Jost",sans-serif;background:var(--cream);color:var(--text);min
         <img src="https://i.imgur.com/pJp0RRF.jpeg" alt="KAIZEN" onerror="this.style.display='none'">
         <span class="header-brand">KAIZEN</span>
       </div>
-      <div class="header-title">Catálogo</div>
+      <div class="header-title">Cat&aacute;logo</div>
       <button class="cart-btn" onclick="toggleCart()">&#128722; Carrito <span class="cart-count" id="cartCount">0</span></button>
     </div>
   </div>
   <div class="catalog-body">
-    <h2 class="section-title">CATÁLOGO</h2>
+    <h2 class="section-title">CAT&Aacute;LOGO</h2>
     <div class="section-divider"></div>
     <div class="products-grid" id="productsGrid"></div>
   </div>
@@ -155,113 +149,89 @@ body{font-family:"Jost",sans-serif;background:var(--cream);color:var(--text);min
   </div>
 </div>
 <div class="cart-panel" id="cartPanel">
-  <div class="cart-header">
-    <h3>MI PEDIDO</h3>
-    <button class="cart-close" onclick="toggleCart()">&#x2715;</button>
-  </div>
-  <div class="cart-items" id="cartItems">
-    <div class="cart-empty">Tu carrito está vacío</div>
-  </div>
+  <div class="cart-header"><h3>MI PEDIDO</h3><button class="cart-close" onclick="toggleCart()">&#x2715;</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty">Tu carrito est&aacute; vac&iacute;o</div></div>
   <div class="cart-footer">
-    <div class="cart-total">
-      <span class="cart-total-label">TOTAL ESTIMADO</span>
-      <span class="cart-total-value" id="cartTotal">&#165;0.00</span>
-    </div>
+    <div class="cart-total"><span class="cart-total-label">TOTAL ESTIMADO</span><span class="cart-total-value" id="cartTotal">&#165;0.00</span></div>
     <button class="whatsapp-btn" onclick="sendWhatsApp()">&#128722; Enviar Pedido por WhatsApp</button>
   </div>
 </div>
 <script>
 var PRODUCTOS = [];
-var USD_RATE = 0.145;
+var USD_RATE = 0.145321;
 var cart = [];
 var currentProduct = null;
-
-fetch('https://raw.githubusercontent.com/kennysgalviz-lgtm/KAIZEN-CATALOGO/main/data.json?t=' + Date.now())
+fetch("https://raw.githubusercontent.com/kennysgalviz-lgtm/KAIZEN-CATALOGO/main/data.json?t=" + Date.now())
   .then(function(r){ return r.json(); })
-  .then(function(data){
-    PRODUCTOS = data.productos;
-    USD_RATE = data.usdRate;
-  })
-  .catch(function(e){ console.error('Error cargando datos:', e); });
-
-function formatUSD(cny){ return '$' + (cny * USD_RATE).toFixed(2); }
-
+  .then(function(data){ PRODUCTOS = data.productos; USD_RATE = data.usdRate; })
+  .catch(function(e){ console.error("Error:", e); });
+function formatUSD(cny){ return "$" + (cny * USD_RATE).toFixed(2); }
 function showCatalog(){
-  document.getElementById('cover').style.display = 'none';
-  document.getElementById('catalog').classList.add('active');
+  document.getElementById("cover").style.display = "none";
+  document.getElementById("catalog").classList.add("active");
   renderProducts();
 }
-
 function renderProducts(){
-  var grid = document.getElementById('productsGrid');
-  var h = '';
+  var grid = document.getElementById("productsGrid");
+  var h = "";
   for(var i = 0; i < PRODUCTOS.length; i++){
     var p = PRODUCTOS[i];
-    h += '<div class="product-card" onclick="openModal(' + i + ')">';
-    h += '<div class="product-img-wrap">';
-    h += '<img class="product-img" src="' + p.imagen + '" alt="" loading="lazy">';
-    if(p.variants.length > 0) h += '<div class="variants-badge">' + p.variants.length + ' variantes</div>';
-    h += '</div>';
-    h += '<div class="product-info">';
-    h += '<div class="product-name">' + p.titulo + '</div>';
-    h += '<div class="product-price">&#165;' + p.price_range + ' <span>/ ' + formatUSD(p.precio) + '</span></div>';
-    h += '</div>';
-    h += '<div class="product-footer"><span class="view-variants-btn">' + (p.variants.length > 0 ? 'Ver variantes' : 'Ver detalle') + ' &#8594;</span></div>';
-    h += '</div>';
+    h += "<div class=\"product-card\" onclick=\"openModal(" + i + ")\">";
+    h += "<div class=\"product-img-wrap\"><img class=\"product-img\" src=\"" + p.imagen + "\" alt=\"\" loading=\"lazy\">";
+    if(p.variants.length > 0) h += "<div class=\"variants-badge\">" + p.variants.length + " variantes</div>";
+    h += "</div>";
+    h += "<div class=\"product-info\"><div class=\"product-name\">" + p.titulo + "</div>";
+    h += "<div class=\"product-price\">&#165;" + p.price_range + " <span>/ " + formatUSD(p.precio) + "</span></div></div>";
+    h += "<div class=\"product-footer\"><span class=\"view-variants-btn\">" + (p.variants.length > 0 ? "Ver variantes" : "Ver detalle") + " &#8594;</span></div></div>";
   }
   grid.innerHTML = h;
 }
-
 function openModal(idx){
   currentProduct = PRODUCTOS[idx];
   var p = currentProduct;
-  document.getElementById('modalTitle').textContent = p.titulo;
-  document.getElementById('modalImg').src = p.imagen;
-  document.getElementById('modalDesc').textContent = p.titulo;
-  document.getElementById('modalPrice').textContent = '&#165;' + p.price_range + ' / ' + formatUSD(p.precio) + ' USD';
-  var grid = document.getElementById('variantsGrid');
-  var vh = '';
+  document.getElementById("modalTitle").textContent = p.titulo;
+  document.getElementById("modalImg").src = p.imagen;
+  document.getElementById("modalDesc").textContent = p.titulo;
+  document.getElementById("modalPrice").textContent = "\u00A5" + p.price_range + " / " + formatUSD(p.precio) + " USD";
+  var grid = document.getElementById("variantsGrid");
+  var vh = "";
   if(p.variants.length === 0){
-    grid.innerHTML = '<div class="no-variants-msg">Sin variantes disponibles.</div>';
+    grid.innerHTML = "<div class=\"no-variants-msg\">Sin variantes disponibles.</div>";
   } else {
     for(var i = 0; i < p.variants.length; i++){
       var v = p.variants[i];
-      vh += '<div class="variant-card" id="variant-' + i + '" onclick="selectVariant(' + i + ')">';
-      vh += '<img class="variant-img" src="' + (v.image || p.imagen) + '" alt="" loading="lazy">';
-      vh += '<div class="variant-info">';
-      vh += '<div class="variant-code">' + v.code + '</div>';
-      vh += '<div class="variant-price">&#165;' + v.price + ' / ' + formatUSD(v.price) + '</div>';
-      vh += '<div class="variant-stock">Stock: ' + v.stock + '</div>';
-      vh += '<div class="variant-qty"><button class="qty-btn" onclick="changeQty(event,' + i + ',-1)">-</button><input class="qty-input" type="number" id="qty-' + i + '" value="0" min="0" max="' + v.stock + '"><button class="qty-btn" onclick="changeQty(event,' + i + ',1)">+</button></div>';
-      vh += '</div></div>';
+      vh += "<div class=\"variant-card\" id=\"variant-" + i + "\" onclick=\"selectVariant(" + i + ")\">";
+      vh += "<img class=\"variant-img\" src=\"" + (v.image || p.imagen) + "\" alt=\"\" loading=\"lazy\">";
+      vh += "<div class=\"variant-info\"><div class=\"variant-code\">" + v.code + "</div>";
+      vh += "<div class=\"variant-price\">\u00A5" + v.price + " / " + formatUSD(v.price) + "</div>";
+      vh += "<div class=\"variant-stock\">Stock: " + v.stock + "</div>";
+      vh += "<div class=\"variant-qty\"><button class=\"qty-btn\" onclick=\"changeQty(event," + i + ",-1)\">-</button><input class=\"qty-input\" type=\"number\" id=\"qty-" + i + "\" value=\"0\" min=\"0\" max=\"" + v.stock + "\"><button class=\"qty-btn\" onclick=\"changeQty(event," + i + ",1)\">+</button></div>";
+      vh += "</div></div>";
     }
     grid.innerHTML = vh;
   }
-  document.getElementById('modalOverlay').classList.add('active');
+  document.getElementById("modalOverlay").classList.add("active");
 }
-
 function selectVariant(i){
-  var c = document.getElementById('variant-' + i);
-  c.classList.toggle('selected');
-  var q = document.getElementById('qty-' + i);
+  var c = document.getElementById("variant-" + i);
+  c.classList.toggle("selected");
+  var q = document.getElementById("qty-" + i);
   if(q && parseInt(q.value) === 0) q.value = 1;
 }
-
 function changeQty(e, i, d){
   e.stopPropagation();
-  var inp = document.getElementById('qty-' + i);
+  var inp = document.getElementById("qty-" + i);
   var nv = Math.max(0, parseInt(inp.value || 0) + d);
   inp.value = nv;
-  var c = document.getElementById('variant-' + i);
-  if(nv > 0) c.classList.add('selected'); else c.classList.remove('selected');
+  var c = document.getElementById("variant-" + i);
+  if(nv > 0) c.classList.add("selected"); else c.classList.remove("selected");
 }
-
 function addSelectedToCart(){
   if(!currentProduct) return;
   var added = 0;
   for(var i = 0; i < currentProduct.variants.length; i++){
     var v = currentProduct.variants[i];
-    var inp = document.getElementById('qty-' + i);
+    var inp = document.getElementById("qty-" + i);
     if(!inp) continue;
     var qty = parseInt(inp.value);
     if(qty > 0){
@@ -276,55 +246,43 @@ function addSelectedToCart(){
   }
   if(added > 0){ closeModalDirect(); renderCart(); toggleCart(); }
 }
-
 function renderCart(){
-  var con = document.getElementById('cartItems');
-  var total = 0, count = 0, h = '';
+  var con = document.getElementById("cartItems");
+  var total = 0, count = 0, h = "";
   for(var i = 0; i < cart.length; i++) count += cart[i].qty;
-  document.getElementById('cartCount').textContent = count;
+  document.getElementById("cartCount").textContent = count;
   if(cart.length === 0){
-    con.innerHTML = '<div class="cart-empty">Tu carrito está vacío</div>';
-    document.getElementById('cartTotal').textContent = '&#165;0.00';
+    con.innerHTML = "<div class=\"cart-empty\">Tu carrito est&aacute; vac&iacute;o</div>";
+    document.getElementById("cartTotal").textContent = "\u00A50.00";
     return;
   }
   for(var i = 0; i < cart.length; i++){
     var item = cart[i];
     total += item.price * item.qty;
-    h += '<div class="cart-item">';
-    h += '<img class="cart-item-img" src="' + item.image + '" alt="" onerror="this.style.display='none'">';
-    h += '<div class="cart-item-info">';
-    h += '<div class="cart-item-code">' + item.code + ' x ' + item.qty + '</div>';
-    h += '<div class="cart-item-product">' + item.productName + '</div>';
-    h += '<div class="cart-item-price">&#165;' + (item.price * item.qty).toFixed(2) + ' / ' + formatUSD(item.price * item.qty) + '</div>';
-    h += '</div><button class="cart-item-remove" onclick="removeFromCart(' + i + ')">x</button></div>';
+    h += "<div class=\"cart-item\"><img class=\"cart-item-img\" src=\"" + item.image + "\" alt=\"\" onerror=\"this.style.display='none'\">";
+    h += "<div class=\"cart-item-info\"><div class=\"cart-item-code\">" + item.code + " x " + item.qty + "</div>";
+    h += "<div class=\"cart-item-product\">" + item.productName + "</div>";
+    h += "<div class=\"cart-item-price\">\u00A5" + (item.price * item.qty).toFixed(2) + " / " + formatUSD(item.price * item.qty) + "</div></div>";
+    h += "<button class=\"cart-item-remove\" onclick=\"removeFromCart(" + i + ")\">x</button></div>";
   }
   con.innerHTML = h;
-  document.getElementById('cartTotal').textContent = '&#165;' + total.toFixed(2) + ' / ' + formatUSD(total);
+  document.getElementById("cartTotal").textContent = "\u00A5" + total.toFixed(2) + " / " + formatUSD(total);
 }
-
 function removeFromCart(i){ cart.splice(i, 1); renderCart(); }
-
 function sendWhatsApp(){
   if(cart.length === 0) return;
-  var msg = '*PEDIDO KAIZEN*
-
-', total = 0;
+  var msg = "*PEDIDO KAIZEN*\n\n", total = 0;
   for(var i = 0; i < cart.length; i++){
     var item = cart[i];
-    msg += '* ' + item.code + ' x' + item.qty + ' = ¥' + (item.price * item.qty).toFixed(2) + '
-  ' + item.productName.slice(0, 40) + '
-
-';
+    msg += "* " + item.code + " x" + item.qty + " = \u00A5" + (item.price * item.qty).toFixed(2) + "\n  " + item.productName.slice(0, 40) + "\n\n";
     total += item.price * item.qty;
   }
-  msg += '
-Total: ¥' + total.toFixed(2) + ' / ' + formatUSD(total);
-  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+  msg += "\nTotal: \u00A5" + total.toFixed(2) + " / " + formatUSD(total);
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
 }
-
-function toggleCart(){ document.getElementById('cartPanel').classList.toggle('active'); }
-function closeModal(e){ if(e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
-function closeModalDirect(){ document.getElementById('modalOverlay').classList.remove('active'); currentProduct = null; }
+function toggleCart(){ document.getElementById("cartPanel").classList.toggle("active"); }
+function closeModal(e){ if(e.target === document.getElementById("modalOverlay")) closeModalDirect(); }
+function closeModalDirect(){ document.getElementById("modalOverlay").classList.remove("active"); currentProduct = null; }
 </script>
 </body>
 </html>
