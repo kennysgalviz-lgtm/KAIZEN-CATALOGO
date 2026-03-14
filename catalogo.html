@@ -204,7 +204,6 @@ function openModal(idx){
       vh += "<img class=\"variant-img\" src=\"https://wsrv.nl/?url=" + encodeURIComponent(v.image || p.imagen) + "\" alt=\"\" loading=\"lazy\">";
       vh += "<div class=\"variant-info\"><div class=\"variant-code\">" + v.code + "</div>";
       vh += "<div class=\"variant-price\">\u00A5" + v.price + " / " + formatUSD(v.price) + "</div>";
-      vh += "<div class=\"variant-stock\">Stock: " + v.stock + "</div>";
       vh += "<div class=\"variant-qty\"><button class=\"qty-btn\" onclick=\"changeQty(event," + i + ",-1)\">-</button><input class=\"qty-input\" type=\"number\" id=\"qty-" + i + "\" value=\"0\" min=\"0\" max=\"" + v.stock + "\"><button class=\"qty-btn\" onclick=\"changeQty(event," + i + ",1)\">+</button></div>";
       vh += "</div></div>";
     }
