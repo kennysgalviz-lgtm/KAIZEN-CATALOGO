@@ -169,8 +169,22 @@ function formatUSD(cny){ return "$" + (cny * USD_RATE).toFixed(2); }
 function showCatalog(){
   document.getElementById("cover").style.display = "none";
   document.getElementById("catalog").classList.add("active");
-  renderProducts();
-}
+  if(PRODUCTOS.length > 0){
+    renderProducts();
+  } else {
+    document.getElementById("productsGrid").innerHTML = "<div style='text-align:center;padding:3rem;color:var(--text-light);font-family:Cinzel,serif;letter-spacing:0.1em;'>CARGANDO PRODUCTOS...</div>";
+    var tries = 0;
+    var interval = setInterval(function(){
+      tries++;
+      if(PRODUCTOS.length > 0){
+        clearInterval(interval);
+        renderProducts();
+      } else if(tries > 20){
+        clearInterval(interval);
+        document.getElementById("productsGrid").innerHTML = "<div style='text-align:center;padding:3rem;color:var(--text-light);'>Error cargando. Recarga la p&aacute;gina.</div>";
+      }
+    }, 500);
+  }
 function renderProducts(){
   var grid = document.getElementById("productsGrid");
   var h = "";
